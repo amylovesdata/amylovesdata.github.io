@@ -10,11 +10,15 @@ I am a Data Analyst, currently working on my Masters of Data Analytics, with ext
 
 **Projects**
 
-Student Accounts Tableau Dashboard
+Project one: Student Accounts Tableau Dashboard
 
 Link: https://public.tableau.com/app/profile/amy.pett7644/viz/PracticeStudentAccounts/Dashboard1
 
-Project two
+Project two: Course project for Data Acquistion
 
-Project three
+
+Project three: Course project for Data Cleaning
+
+
+Project four: ECourse project for Exploratory Data Analysis
 
