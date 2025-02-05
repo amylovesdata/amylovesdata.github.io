@@ -16,6 +16,7 @@ Project one: Student Accounts Tableau Dashboard
 
 Project two: Course project for Data Acquistion
 
+[Click here to go to project](posts/D205.md)
 
 Project three: Course project for Data Cleaning
 
