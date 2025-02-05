@@ -20,5 +20,5 @@ Project two: Course project for Data Acquistion
 Project three: Course project for Data Cleaning
 
 
-Project four: ECourse project for Exploratory Data Analysis
+Project four: Course project for Exploratory Data Analysis
 
