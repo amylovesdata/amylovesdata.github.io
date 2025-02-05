@@ -12,11 +12,12 @@ I am a Data Analyst, currently working on my Masters of Data Analytics, with ext
 
 Project one: Student Accounts Tableau Dashboard
 
-[https://public.tableau.com/app/profile/amy.pett7644/viz/PracticeStudentAccounts/Dashboard1](url)
+[https://public.tableau.com/app/profile/amy.pett7644/viz/PracticeStudentAccounts/Dashboard1](https://public.tableau.com/app/profile/amy.pett7644/viz/PracticeStudentAccounts/Dashboard1)
 
 Project two: Course project for Data Acquistion
 
-[Click here to go to project](pages/D205.md)
+[Click here to go to project](amylovesdata.github.io/_pages
+/D205.md)
 
 Project three: Course project for Data Cleaning
 
