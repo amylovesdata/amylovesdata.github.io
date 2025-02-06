@@ -16,8 +16,7 @@ Project one: Student Accounts Tableau Dashboard
 
 Project two: Course project for Data Acquistion
 
-[Click here to go to project](amylovesdata.github.io/_pages
-/D205.md)
+[Click here to go to project](https://github.com/amylovesdata/amylovesdata.github.io/commit/86fdfd7a4ad238996dc614a3b16fcb205286a5e9)
 
 Project three: Course project for Data Cleaning
 
