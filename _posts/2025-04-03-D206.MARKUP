@@ -1,0 +1,260 @@
+This is my performance assessment from my D206 Data Cleaning. 
+
+Part 1: Research Question
+A1
+Question: Which patient variables correlate the most to patient readmissions?
+An issue facing the medical industry is the readmissions of patients.  It’s an issue that some external organizations are penalizing hospitals for excessive readmissions (D206 Data Cleaning_ Medical Data Considerations and Dictionary.pdf, n.d.). While monetary penalties to businesses aren’t desirable, of greater concern should be on patients' health and finances. It is not in anyone’s best interest to see high readmittance rates.
+I will use the medical_raw_data data set in a hypothetical data project to help a hospital network discover variables that lead to readmissions so they can identify and implement solutions for those variables. Those variables include demographics, medical conditions, medical services, billing, and survey data. 
+A2
+	There are a total of 52 variables in the medical_raw_data dataset. I will describe all the variables here. I did not include the first unnamed column.  It is basically just numbering the rows. That data exists in the CaseOrder column, so it is redundant, and I dropped it from the dataset. 
+1.	CaseOrder: This is quantitative.  Its purpose is to keep the data in the original order.
+Example: 1 (Cell B2)
+2.	Customer_id: This is qualitative.  It is the customer ID for each patient.
+Example: 8cd49b13-f45a-4b47-a2bd-173ffa932c2f (Cell C2)
+3.	Interaction: This is qualitative. This is an additional ID for administrative purposes.
+Example: 8cd49b13-f45a-4b47-a2bd-173ffa932c2f (Cell D2)
+4.	UID: This is qualitative.   This is an additional ID for administrative purposes.
+Example: 3a83ddb66e2ae73798bdf1d705dc0932 (Cell E2)
+5.	City: This is qualitative.  This represents the patient’s city
+Example: Sioux Falls (Cell F4)
+6.	State: This is qualitative. This represents the patient’s state.
+Example: SD (Cell G4)
+7.	County: This is qualitative.  This represents the patient’s county.
+Example: Morgan (Cell H2)
+8.	Zip: This is qualitative.   This represents the patient’s zip code.
+Example: 35621 (Cell I2)
+9.	Lat: This is quantitative.   This represents the patient’s latitude.
+Example: 34.3496 (Cell J2)
+10.	Lng: This is quantitative.   This represents the patient’s longitude.
+Example: -96.63772 (Cell K2)
+11.	Population: This is quantitative. This is the population size the patient lives in.
+Example: 2951 (Cell L2)
+12.	Area: This is qualitative. This categorizes the type of area they live in—rural, urban, or suburban.
+Example: Suburban (Cell M2)
+13.	Timezone: This is qualitative. This identifies the time zone the patient lives in.
+Example: America/Chicago (Cell N2)
+14.	Job: This is qualitative. This allows the patient to identify what job they hold.
+Example: Psychologist, sport and exercise (Cell O2)
+15.	Children: This is quantitative.  This is the number of children the patient has.
+Example: 3 (Cell P3)
+16.	Age: This is quantitative.   This is the patient’s age.
+Example: 53 (Cell Q2)
+17.	Education: This is qualitative.  This categorizes the patient’s highest level of education earned: 9th Grade to 12th Grade, No Diploma, Associate's Degree, Bachelor's Degree, Doctorate Degree, GED or Alternative Credential, Master's Degree, No Schooling Completed, Nursery School to 8th Grade, Professional School Degree, Regular High School Diploma, Some College, 1 or More Years, No Degree, Some College, or Less than 1 Year. 
+Example: Some College, Less than 1 Year (Cell R2)
+18.	Employment: This is qualitative. This categorizes the patient’s employment status: Full Time, Part Time, Retired, Student, or Unemployed.
+Example: Full Time (Cell S2)
+19.	Income: This is quantitative.   This is the patient's annual income.
+Example: 86575.93 (Cell T2)
+20.	Marital: This is qualitative. This categorizes the patient’s marital status: Divorced, Married, Never Married, Separated, or Widowed.
+Example: Divorced (Cell U2)
+21.	Gender: This is qualitative. This categorizes the patient’s gender: Male, Female, or Prefer not to answer.
+Example: Male (Cell V2)
+22.	ReAdmins: This is qualitative. This indicates whether the patient was readmitted or not. 
+Example: No (Cell W2)
+23.	VitD_levels: This is quantitative. This is the patient's vitamin D level.
+Example: 17.80233049 (Cell X2)
+24.	Doc_visits: This is quantitative. This is the number of doctor’s visits the patient had.
+Example: 6 (Cell Y2)
+25.	Full_meals_eaten: This is quantitative. This was a count of the total full meals the patient ate while admitted.
+Example: 2 (Cell Z3)
+26.	VitD_supp: This is quantitative. This is the number of vitamin D supplements the patient was given while admitted.
+Example: 1 (Cell AA3)
+27.	Soft_drink: This is qualitative. This indicates whether the patient drinks more than three sodas regularly.
+Example: No (Cell AB3)
+28.	Initial_admin: This is qualitative. This categorizes the reason for the initial admission: Elective Admission, Emergency Admission, or Observation Admission.
+Example: Emergency Admission (Cell AC2)
+29.	HighBlood: This is qualitative. This tracks if the patient has high blood pressure or not.
+Example: Yes (Cell AD2)
+30.	Stroke: This is qualitative. This tracks if the patient has ever had a stroke.
+Example: No (Cell AE2)
+31.	Complication_risk: This is qualitative. This categorizes the patient's level of complication risk: High, Low, or Medium.
+Example: Medium (Cell AF2)
+32.	Overweight: This is qualitative. This tracks if the patient is overweight or not.
+Example: 1 (Cell AG3)
+33.	Arthritis: This is qualitative. This tracks if the patient has arthritis or not.
+Example: Yes (Cell AH2)
+34.	Diabetes: This is qualitative. This tracks whether the patient has diabetes or not.
+Example: Yes (Cell AI2)
+35.	Hyperlipidemia: This is qualitative. This tracks whether the patient has hyperlipidemia or not.
+Example: No (Cell AJ2)
+36.	BackPain: This is qualitative. This tracks whether there is back pain or not. 
+Example: No (Cell AK3)
+37.	Anxiety: This is qualitative. This tracks if the patient has anxiety or not.
+Example: 1 (Cell AL2)
+38.	Allergic_rhinitis: This is qualitative. This tracks if the patient has allergic rhinitis or not.
+Example: Yes (Cell AM2)
+39.	Relux_esophatgitis: This is qualitative. This tracks if the patient has reflux esophagitis or not.
+Example: No (Cell AN2)
+40.	Asthma: This is qualitative. This tracks if the patient has asthma or not.
+Example: Yes (Cell AO2)
+41.	Services: This is qualitative. This categorizes the type of service the patient had during their hospital stay: Blood Work, CT Scan, Intravenous, or MRI.
+Example: Blood Work (Cell AP2)
+42.	Initial_days: This is quantitative. This is the length of stay for the patient at the hospital. 
+Example: 10.58576971 (Cell AQ2)
+43.	TotalCharge: This is quantitative. This is the charge to the patient calculated by taking the daily charge divided by the total days there.
+Example: 3191.048774 (Cell AR2)
+44.	Additional_charges: This is quantitative. This was the charge to the patient for additional services.
+Example: 17939.40342 (Cell AS2)
+45.	Item1: This is qualitative. This is survey data that ranks the importance of timely admission: 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 3 (Cell AT3)
+46.	Item2: This is qualitative. This is survey data that ranks the importance of timely treatment: 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 3 (Cell AU2)
+47.	Item3: This is qualitative. This is survey data that ranks the importance of timely visits: 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 2 (Cell AV2)
+48.	Item4: This is qualitative. This is survey data that ranks the importance of reliability: 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 4 (Cell AW3)
+49.	Item5: This is qualitative. This is survey data that ranks the importance of options: 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 4 (Cell AX2)
+50.	Item6: This is qualitative. This is survey data that ranks the importance of hours of treatment: 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 5 (Cell AY5)
+51.	Item7: This is qualitative. This is survey data that ranks the importance of courteous staff. : 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 3 (Cell AZ2)
+52.	Item8: This is qualitative. This is survey data that ranks the important evidence of active listening from doctors: 1, 2, 3, 4, 5, 6, 7, or 8.
+Example: 6 (Cell BA7)
+
+Part II: Data-Cleaning Plan
+B1
+	The first step will be to set up a Jupyter Notebook and import the medical_raw_data.csv file. First, I’ll run the .info(), .describe(), and .value_count() codes as applicable to provide a quick overview of the data. Info() will give me a quick view of all variables and some characters. The function .describe() will be useful for numerical data. The function .value_count() can be useful for an overview of categorical data as well as numerical data if I want to dig a little deeper and see if anything feels off after I use .describe(). I just want to get some basic familiarity with the variables and their characteristics.  
+I will then check for duplicates using the function .duplicate() . Duplicates can skew the results, so it makes sense to do this step first. If there are duplicates, they will be removed. 
+	Next, I will check for null values.  I will create a matrix using the msno.matrix() function to see which variables have null values and their prevalence.  It makes it easy to quickly assess those two things by creating a visual. I will need to decide if there is any justification for deleting either variables or observations if they meet standard recognized thresholds. The other option will be to use imputation.  I have chosen imputation because it uses statistical models and maintains the sample size.
+	I’ll create histograms or bar charts to evaluate the most appropriate imputation type for the data I intend to impute.  I’ll use histograms for numeric data and bar charts for categorical data. This will allow me to quickly discern the distribution type of the variables so I can determine if it is best to use mode, mean, or median for imputation. I will use mode for categorical or bi-modal distributions, mean for any normal or uniform distribution, and the median for any skewed distribution types.
+Once I’ve determined the distribution types and whether I am using the mode, mean, or median for imputation, I will create and run the code for that process. I will run the .info() code again after I have completed the imputation for each variable with null values to verify that there are no null values for any variables.  If there are no nulls, the imputation is successful. I’ll then create the histograms or bar charts again to verify that each variable had no major changes to the distribution types. 
+After cleaning up null values, I will evaluate the variables to see if there is justification for changing any of my categorical data to ordinal.  The best reason for this data set would be for consistency or if there is a variable with a clear ranking.  I will run that code if I determine it’s needed.
+Once I’ve completed the null value processes, I’ll check all quantitative variables for outliers. I’ll start with coding for a boxplot.  This is a quick, visual way to check for any outliers.  I will have to determine if those outliers are logical and if they impact the sample size or bias the data. If needed, I can use functions to investigate the volume of outliers. I will retain the data if the outliers are still logical answers and/or have a very low impact due to being a small group.  I will remove from the dataset if the outliers are not reasonable data points or are likely to skew or bias the data.
+Finally, I’ll run the Principal Component Analysis (PCA) process. Since this is not part of the data cleaning process, completing it after the data is cleaned made sense. My process for this will be to:
+1.	Create my PCA variables.
+2.	Normalizing the variables.
+3.	Get the total principal components.
+4.	Fit the PCA on the normalized dataset.
+5.	Create a new data frame for the principal components
+6.	Get the loadings.
+7.	Create a scree plot to identify all principal components with an eigenvalue of >=1. 
+B2
+My approach is to get a broad overview of the data to get a feel for it and identify any noticeable patterns or issues quickly. This will give me a stronger position as I deal with quality concerns such as duplicates, missing values, and outliers.   I am using mainly descriptive functions to get to know the quality of the data. I can get familiar with that data, which will make it easier to evaluate outliers later on, already understanding characteristics such as range, data types, and descriptive statistics.  This will also help to understand where some of the limitations in the data may be early on as well.  
+The first quality issue I will check will be duplicates.  This way, I’m not working with them in other steps. Retaining them would weigh any patient's data more heavily, so there is no good reason to keep the duplicates.
+The next quality issue I’ll address will be missing values. I have chosen to use univariate statistical imputation to treat null values.  Where this is primarily demographic, health conditions, services, and survey data for individuals and does not contain any time series variables, it would not make sense to use backward/forward fill. I also will likely not use iterative or KNN imputation as it is more complex, and the accuracy will depend on the k values you select.  There are a lot of simple categorical variables, so using univariate imputation makes the most sense for most of this data set. Twelve variables alone are binary categorical data types.  I’d rather leave as much of the data as is, and univariate imputation uses simple statistics. 
+After completing the outlier treatment, Doing the PCA analysis last makes sense.  At this point, the data has been cleaned. The analysis is on the finalized dataset. Changes made after running this analysis could impact that analysis and lead to different results.  The PCA analysis can proceed with confidence in the dataset by addressing quality issues first. 
+B3
+	I have chosen to use Python for the data-cleaning process. Python is widely utilized in data analysis as well as other applications.   Python is also good at handling large data sets (Data Cleaning-An Overview of Python, n.d.). There are many add-on libraries for Python that can assist with data analysis.  
+	There are seven different libraries I’ve determined I’ll need for the data cleaning, statistical analysis, and visualizations.  I will use pandas to load CSV files and create data frames for organizing and analyzing the data.  NumPy is useful for basic numerical operations such as calculating mean, median, or mode. Missingno will be used to visualize missing data. Matplotlib.pyplot is useful for creating visualizing and basic statistics. Seaborn can create boxplots for the outlier process. The decomposition-PCA library will be used in the PCA analysis. 
+Python Library	Support process
+pandas	load CSV files, create data frames
+numpy	numerical operations
+missingno	visualize missing data
+matplotlib.pyplot	visualizations
+statistics	basic statistics
+seaborn	statistical visualization–boxplots
+sklearn.decomposition-PCA	PCA analysis
+
+Part III: Data Cleaning
+C1
+I learned a lot about the data by exploring it first. In general, the data is primarily qualitative.  There are some quantitative fields, but the majority are qualitative. Some of the variables are set up numerically but are, in fact, categorical data such as zip code. 
+As I looked at the variables using the function .describe() and/or the function .value_count() I was about to discern some minor data issues.  One was the zip code.  Using the function .describe(), I saw the min was 610.  Zip codes should all be a 5-digit number.  It appears the leading zeros were dropped because the data type for this variable was float64 which is a number type.  Although zip codes are numbers, they are, in fact, categorical, not numerical. 
+The job variable does not have consistent values or categories.  It was likely whatever the person called their job title.  This would make it a little more difficult to connect any correlation to the job since there may be more than one way a specific job is being called. There were 639 unique job titles used.  This variable would be easier to categorize if a consistent naming protocol existed for jobs.
+There was one unnamed column/variable.  It appears to be exactly the same as the CaseOrder column. I’m not sure the purpose of it and it seems poor practice to leave a column unnamed. 
+	While not specifically a data concern, gender only had three options–male, female, or prefer not to answer.  From an inclusivity point of view, this variable could be expanded to include other gender options.  There may be medical issues specific to trans or other gender identification that can impact their health as well as a matter of respect.  I think it’s worth considering.
+	 I noticed the Initial_days, TotalCharge, and Additional_charges variables had up to 6 decimal places. It won’t cause issues with skewing the data, but having that many decimal points for monetary or counts of days data doesn't make logical sense.
+	There were two ways of collecting binary categorical data.  Some variables used yes or no, and some used 0 or 1.  The majority (10 variables) used yes/no versus the minority (2 variables–Overweight and Anxiety) 0 or 1.  
+	There were no duplicate values detected.  There was no need to deal with duplicates in this case, so no further actions were taken. If there had been duplicates, I would have deleted them.  Retaining them would have weighted the dataset for those patients. 
+	Seven variables were found to have missing values.  The amount ranged from 9.8% to 25.8% of the specific variables. 
+Variable	Count of non-null	Null	Percentage null
+Children	7412	2588	25.8%
+Age	7586	2414	24.1%
+Income	7536	2464	24.6%
+Soft_drink	7533	2467	24.7%
+Overweight	9018	982	9.8%
+Anxiety	9016	984	9.8%
+Initial_days	8944	1056	10.6%
+
+There were thirteen quantitative variables. By running boxplots, I could see that Age, Doc_visits, and Initial_days had no outliers. That left ten variables with outliers—Lat, Lng, Population, Children, Income, VitD_levels, Full_meals_eaten, and VitD_supp, TotalCharge, Additional_charges.
+I ran .value_count() to get a quick idea of the volume of outliers on some of the categorical, qualitative variables—Children, Full_meals_eaten, and VitD_supp.  With a small number of categories, I could quickly see how many outliers each variable had.
+Variable	Outlier range	Total
+Children	>6	457
+Full_meals_eaten	>5	8
+VitD_supp	>2	70
+	It seemed prudent to use a more automated way of getting the volume of outliers for the other variables as they were slightly more complicated.  I created a query for each remaining variable, then ran the .info() function and got a quick volume count for the total outliers.
+Variable	Outlier range	Total
+Lat	<25 or >50	150
+Lng	< -120	628
+Population	> 35,000	805
+Income	>120,000	145
+VitD_levels	>25	507
+TotalCharge	>14,000	472
+Additional_charges	>27,000	432
+
+C2
+I did point out some criticisms of how certain variables were collected as a data quality concern—zip codes as an integer, open-ended job titles, limited gender options, excessive decimal places, and inconsistent use of yes/no or 0/1—but did not take any actions on those variables. I believe in retaining as much of the original data as possible, only changing when leaving it as is caused confusion or would make it difficult to use in future processes. 
+The latitude and longitude were also collected, so I felt the location was still accurately tracked, and no changes were made to the zip code.  Some of my critiques may be nitpicking since no changes can be made at this time for things like Gender or Job. Still, I feel like considering some of the changes for future data input or datasets would be a benefit to future analysis. 
+I wouldn’t want to change for 0/1 categorical variables, even for consistency, since I can’t verify how those were intended. I can’t know for sure which is yes or no. If I assume incorrectly, it could result in an incorrect analysis.  Rather than risk guessing, I chose to leave the two variables--Overweight and Anxiety--as is.
+	I did choose to leave the unnamed column in the dataset.  It appears to be the same as the CaseOrder column/variable.  I left the column in place since I could not verify its intended purpose.  There is no getting it back once you delete a column.  I decided to err on the side of caution if the reason for the column is obvious or explained further in a different part of the project. It does not skew the dataset in any way to leave it in.  It will take storage space to keep it, but I determined it is not enough to warrant deletion.
+	One of the reasons I decided to impute missing data rather than delete data was to preserve the sample size.  The risk of imputation is that you cannot guarantee absolute accuracy and can build systematic biases into the data because of that.  We have some statistical certainty in the standard practice of imputation, but that doesn’t change the fact that it uses best “guesses” and is not 100% accurate information.  When I looked at how much it would decrease the sample size if I removed any observations with missing data, it would limit the sample size more than I was comfortable with.  I didn’t want to lose out on the richness of all the other variables by limiting the sample size, considering there were only 7 different variables with missing data, which left 45 other variables with no missing data.
+	How I imputed the data was based on the variable type and distribution characteristics.  I used the mode for any categorial or bimodal distributions.  I used the median for skewed distributions.  I used the mean for the one variable with a uniform distribution.
+	No ordinal coding was completed in this dataset.  There were survey variables–Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8–with ranked responses, but they are already in numerical form.  If they had been created as satisfied, very satisfied, etc., they would be good options for ordinal coding.  However, they were set up with a range of 1-8 as options.  
+	There are ten variables with yes/no answers. They could have been updated. I decided updating many variables was not ideal and would rather maintain the original data.  I don’t think there was a high need to change yes/no to ordinal, as those categories have no ranking. The likelihood of needing to put them in a ranking order is low.
+In reviewing outliers for three of the variables—Children, Full_meals_eaten, and VitD_Supp—I determined they should be retained because their ranges appeared logically possible. I ran the function .value_counts() for these variables. For instance, the number of children ranged from 0 to 10. While 10 children are a lot, it’s not implausible. For Full_meals_eaten, the range was 0-7, with very few data points in the 6-7 range, which seemed realistic considering people can eat multiple meals per day. VitD_Supp, ranging from 0-5, had very few data points at the upper end.  Given that these outliers were not extreme or implausible, I retained them, ensuring that no meaningful data was discarded unnecessarily.
+For the latitude and longitude (Lat, Lng) variables, I verified on a map that values outside the box were within the geographical boundaries of the United States, including Alaska, Hawaii, and Puerto Rico. This confirmed that these data points were valid and should be retained.
+For the five remaining variables—Population, Income, VitD_levels, TotalCharge, and Additional_charges—I ran queries to determine the size of outliers.  The Population and Income ranges were realistic for city sizes and wages.  I determined that I lacked domain-specific expertise to assess whether the outliers for VitD_levels, TotalCharge, and Additional_charges were entirely unrealistic. However, the proportion of data points affected by all these outliers was small, and many other variables in these observations were valid. Therefore, I decided to retain the data, as including these outliers would not significantly skew the overall results.
+C3
+1.	Data collection
+	I was able to download the medical_raw_data.csv file from the link with no issues.  I ensured the file was in the directory to which my Jupyter Notebook was linked. I then executed code to read and create a data frame for that file.  There were no issues with this step, and I was able to proceed with the following process with no problems.
+2.	Data exploration, duplicates
+	I quickly determined possible data issues and got a good feel for the data by using .describe() and/or .value_counts().  This gave me details about characteristics such as max, min, data type, category labels, etc. I determined variable characteristics, such as qualitative or quantitative, which are important for future processes such as detecting outliers and performing the PCA Analysis.   
+I used the function .duplicated() to check for duplicated observations. There were no duplicates, so no treatment of duplicates was necessary with this dataset.  The unnamed column does appear to be the same as CaseOrder, but leaving it in place will not skew the data, so that was left as is. 
+3.	Missing data
+There were seven variables with null values–Children, Age, Income, Soft_drink, Overweight, Anxiety, and Initial_days.  Looking at the results of the function .print() for missing_values and the matrix visualization.  They ranged from 9.8%-25.8% null values.  I concluded that the missing values were not a high enough portion to warrant deleting any variables or observations. 
+My method of dealing with null values would be imputation.  Using histograms and bar charts, I quickly discerned the distribution types. I then imputed using the mode, median, or mean based on the distribution type.  
+I was satisfied with the resulting distribution when I re-ran the histogram or bar chart codes.  I want to point out that in the case of ‘Age,’ the resulting histogram now has a spike in the middle.  I determined Age to be a uniform distribution.  There were some differences in the distribution on the first histogram, but it was minimal.  It still puts it within statistical tolerances to be considered uniformly distributed as there are no clear skewed areas.  The resulting histogram is skewed towards the mean.  I ran a calculation for the mean before and after as well as running the .describe() function.  The mean remained statistically the same (53.0 before imputation, 53.3 after imputation), so I was satisfied that this did not have a negative impact on the data. While imperfect, this is the closest way to get accurate data within statistical tolerances without removing this variable or observations.  All the other variables clearly had the same distributions. 
+4.	Ordinally Code Columns
+	No ordinal coding was needed in this dataset.  There were survey variables–Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8–with ranked responses, but they are already in numerical form.  If they had been created as satisfied, very satisfied, etc., they would be good options for ordinal coding.  However, they were set up as 1-8 as options.  
+	There are ten variables with yes/no answers. They could have been updated. I decided updating many variables was not ideal and would rather maintain the original data as is.  I don’t think there was a high need to change yes/no to ordinal, as those categories have no ranking. The likelihood of needing to put them in a ranking order is extremely low.
+5.	Outlier detection
+Through the data-cleaning process, I evaluated the plausibility of outliers for multiple variables. For Children, Population, Full_meal_eaten, VitD_Supp, and Income, the ranges appeared reasonable after reviewing descriptive statistics and value counts, +63
+……….so these variables were retained without modification. This helped preserve the integrity of the data by avoiding unnecessary deletion of plausible data points.
+For Lat and Lng, I confirmed that all values fell within the geographical boundaries of the United States, which validated the data. This ensured that no location-related data points were incorrectly flagged as outliers.
+I opted to retain the outliers for the variables VitD_levels, TotalCharge, and Additional_charges despite lacking the expertise to fully assess their plausibility. The decision to retain them was based on their minimal impact on the overall dataset, as only a small portion of the data was affected. By retaining these observations, I ensured that the data was not incorrectly constrained, which could have led to a loss of meaningful insights.
+C4
+While I stand by my decision to impute rather than remove missing data, it can introduce some systematic bias into the dataset.  The alternative could be a small sample size in which meaningful data was lost.  Imputation is a statistically sound process; however, the missing data is assumed to follow the same distribution pattern. There is no way of absolutely guaranteeing that. 
+There is also the risk that retaining the outliers will skew future data analysis.  My lack of content knowledge was a limitation.  While a variable like Children was easy to determine it’s possible to have 10 children, I couldn’t as confidently determine the upper limits of vitamin D levels or reasonable hospital charges
+Not ordinally coding the yes/no categorical variables could potentially limit the uses of machine learning in future processes. I choose to leave them due to consistency; however, I will concede that it would make it harder to model statistically if that were a desired option later. 
+C5
+My biggest concerns in identifying correlating variables would be incorrect conclusions because of imputation bias and outlier retention. While the mean remained essentially the same for Age, and that is an accepted practice, it could be possible that a certain age group could be skewed.  Based on the revised dataset, the mean age population could receive more attention and resources from decision-making. The distribution is still close enough that I’m satisfied with it but it remains a risk and a limitation due to having missing fields. 
+ 
+The outliers I retained, for the most part, I’m satisfied with.  The ones I felt I didn’t have the expertise to determine were not a large group for each respective variable.  It is possible that those outliers could also skew data.  I still felt it was more important to maintain the sample size.  It’s also possible that patients with uncommon but more extreme vitamin D levels impact readmissions due to that factor. 
+The yes/no categorical variables can still be part of future analysis, but coding them ordinally might make it easier.  It is a large number of variables to lose insight from if future processes do not take them into consideration, or it makes it harder to do so.  Many of these yes/no variables were for health conditions.  Since readmissions are health-related, those variables could be more important than demographic variables. There’s a risk that they won’t be as deeply analyzed in their original format. 
+
+Documentation of coding
+D1
+Jupyter notebook file attached to task submission for all annotated code: D206NUM4final.ipynb
+D2
+CSV file of completed cleaned data attached to submission: medical_clean_data.csv
+PCA Analysis
+E1
+I selected the quantitative, continuous variables for the PCA analysis.  These variables were Children, Age, Income, VitD_levels, Doc_visits, Full_meals_eaten, VitD_supp, Initial_days, TotalCharge, and Additional_charges. I set up a data set for the PCA variables. There were 10 principal components detected through the PCA normalization process.  
+ 
+	Next, I created a data frame and named the columns for the principal components. I ran the code to get the loadings. This displays the numerical representation of how much each variable contributes to each principal component. 
+ 
+E2
+Using a scree chart, five primary components met the criteria of an eigenvalue >=1.  In this analysis, the PC1, PC2, PC3, PC4, and PC5 would be considered meaningful based on their eigenvalue. Eigenvalues of one or greater are considered strong for explaining the variance, and less than one is not strong enough (Data Cleaning, n.d.). For this reason, I excluded PC6-PC10 because it had a weaker justification for the variance.  
+ 
+E3
+	There are many complicated elements to health.  If patients are being readmitted, something has gone wrong with their health. This hospital network tracks many variables.  PCA analysis is a tool they can use to find connections between the many variables they track to reduce readmissions.  The matrix used in PCA compares the variables to all the other variables you select, and the Eigenvalues help with rationalizing the importance of the principal components from the matrix (Brems, 2017).  Using Python to run the PCA analysis saves huge amounts of time. It would take a person a long time to run the calculations and require advanced mathematical and statistical skills. The PCA analysis will allow the hospital network to focus on connected factors instead of just focusing on all individual variables.  
+Part IV: Supporting Documents
+
+F Panopto Video
+Panopto video was loaded to the task.  See link: https://d2y36twrtb17ty.cloudfront.net/sessions/759e735b-9497-44d7-a5b7-b2120142b4e8/e7417a40-5406-4df4-b9a7-b2120142b4f2-5783bbee-4ac4-452c-8306-b212016c203b.mp4?invocationId=ea52f8cd-8b91-ef11-8293-12b1cb861383 
+G Web Sources
+Browne-Anderson, Hugo. (n.d.). Introduction to Python. DataCamp. https://app.datacamp.com/learn/courses/intro-to-python-for-data-science
+Nehme, Adel. (n.d). Cleaning Data in Python. DataCamp. 
+Donthi, Surag. (n.d). Dealing with Missing Data in Python. DataCamp. https://app.datacamp.com/learn/courses/dealing-with-missing-data-in-python
+Middleton, Keiona. (n.d.). D206 - Getting Started With D206 | Duplicates [Video]. Wgu.Hosted.Panopto.com. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=6eedfad4-240e-4c5c-8eab-b058003d3e6b
+[Middleton, Keiona]. (n.d.). D206 - Getting Started with D206 | Missing Values [Video]. Wgu.Hosted.Panopto.com. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=767749d2-ba19-4f94-bec8-b058017b2f5e
+[Middleton, Keiona]. (n.d.). D206 - Getting Started with D206 | Outliers [Video]. Wgu.Hosted.Panopto.com. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=19c24c56-0f37-408e-bb1f-b059002a77ac
+[Middleton, Keiona]. (n.d.). D206 - Getting Started With D206 | Re-expression of Categorical Variables [Video]. Wgu.Hosted.Panopto.com. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bd7b8541-77ba-42e0-80a4-b059010bc790
+[Middleton, Keiona]. (n.d.). D206 - Getting Started with D206 | PCA [Video]. Wgu.Hosted.Panopto.com. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=3bcc452f-fa35-43be-b69f-b05901356f95
+matplotib (n.d.). Matplotlib.Pyplot.Plot. Matplotlib. Retrieved October 23, 2024, from https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html
+
+H Sources
+D206 Data Cleaning_ Medical Data Considerations and Dictionary.pdf. (n.d). wgu.edu. Retrieved Oct 9, 2024. https://web5.wgu.edu/aap/content/d206-ema.html.
+Data Cleaning. (n.d.) wgu.edu. Retrieved Oct 9, 2024. https://apps.cgp-oex.wgu.edu/wgulearning/course/course-v1:WGUx+OEX0026+v03/block-v1:WGUx+OEX0026+v03+type@sequential+block@ec44f144ae394de79027cd6d2a17bb72/block-v1:WGUx+OEX0026+v03+type@vertical+block@95e1cc31dd58430caca4bee27241d2a2
+Brems, M. (2017, April 17). A One-Stop Shop for Principal Component Analysis. Medium. Retrieved October 15, 2024, from https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c
+[Middleton, Keiona]. (n.d.). D206 - Getting Started with D206 | Missing Values [Video]. Wgu.Hosted.Panopto.com. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=767749d2-ba19-4f94-bec8-b058017b2f5e
