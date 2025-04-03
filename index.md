@@ -20,6 +20,7 @@ Project two: Course project for Data Acquistion
 
 Project three: Course project for Data Cleaning
 
+[Click here to go to project](_posts/2025-04-03-D206.markdown)
 
 Project four: Course project for Exploratory Data Analysis
 
