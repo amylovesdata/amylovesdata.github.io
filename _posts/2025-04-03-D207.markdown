@@ -1,0 +1,145 @@
+This is the assessment for my D207 Exploratory Data Analysis course.
+
+
+
+
+Course: D207
+
+OEM3 Task 1: Exploratory Data Analysis
+
+Student name: Amy Pett
+
+ID number: 012220223
+
+Date: 2/4/2025
+ 
+
+A1 
+Research question for assessment:  Is asthma status associated with being readmitted to the hospital?
+
+A2 
+Readmissions are a concern for the industry.  If they can identify variables that correlate with readmissions, they can look into options for additional treatment or programs to address those variables proactively. They also can identify where current treatment procedures are lacking that result in readmissions.  Ultimately, the goal is to decrease readmissions. Understanding the causes is vital to that progress. 
+Stakeholders could benefit from the analysis of these specific variables in this research question by having statistically sound data to base decisions on where to spend on resource allocation, development of new policies, and improved patient outcomes. Whether the analysis shows the variables are dependent or independent, that information can be used to determine where to put more resources to lower readmissions.  If asthma is a dependent variable, they can put more resources into it. Some of the benefits from those resources may be educational programs for patients and/or doctors around managing the condition.  There could also be asthma-specific management programs implemented.
+	New policies could also be implemented around patients with asthma to ensure they’re getting the care they need to prevent readmissions because of their asthma.  If the analysis does not show dependency, that may validate current policies around asthma care.
+	Improved patient outcomes are not to be trivialized.  Readmissions may cost more and take more hospital resources, but the ultimate goal is healthy patients.  
+
+A3 
+	The variables that are relevant to the research question are Asthma and ReAdmis.  Asthma is a categorical, discrete data type.  There are two categories–yes or no.  ReAdmis is also a categorical, discrete data type.  There are two categories–yes or no.
+ 
+ 
+ 
+
+B1 
+	I am using the chi-square analysis because my two variables are categorical data types. This is my code:
+#use chi2_contigency to determine if variables are statistically significant for dependence 
+#define table
+data = pd.crosstab(df["ReAdmis"], df["Asthma"], margins=False)
+print(data)
+value = np.array([data.iloc[0][0:2].values,
+                  data.iloc[1][0:2].values])
+
+stat, p, dof, expected = chi2_contingency(data)
+
+print('The ChiSquare statistic is: ' + str(stat))
+print('The p-value is: ' + str(p))
+print('The degree of freedom: ' + str(dof))
+
+#define alpha and dependency/statistical significance
+alpha = 0.05
+if p < alpha:
+    print('Readmissions are not independent of asthma')
+else:
+    print('Readmissions are independent of asthma')
+
+B2 
+	These are the results from my code:
+Asthma     No   Yes
+ReAdmis            
+No       4462  1869
+Yes      2645  1024
+The ChiSquare statistic is: 2.857452237605144
+The p-value is: 0.090951450679407
+The degree of freedom: 1
+Readmissions are independent of asthma
+
+ 
+B3 
+	The Chi-square test uses a contingency table of two categorical variables (2024, Chi-Square Test of Independence). The contingency table organizes the two categorical variables–”Asthma” (yes/no) and “ReAdmis” (yes/no)--in a table to do that analysis. This aligns with the research question, which seeks to evaluate if asthma status is associated with hospital readmissions.  
+	The Chi-square of Independence checks explicitly for a null and an alternative hypothesis.  The null hypothesis is that one variable is independent or not associated with the second variable. The alternative hypothesis is that the first variable is not independent or is associated with the second variable (2024, Chi-Square Test of Independence).
+
+C & C1 Univariate Analysis
+	The first variable I visualized was a continuous variable, “Income.” This variable had a right-skewed distribution.
+
+	The second variable was also a continuous variable, “Children”.2  This variable was also right-skewing. 
+
+
+
+
+
+
+
+
+
+The third variable was a categorical variable, “Marital”.  This variable had a uniform distribution between categories. 
+ 
+
+
+The fourth variable is a categorical variable, “Item1”.  While this distribution appears to have a bell-shaped curve with trailing sides, the peak is not in the middle.  It is slightly skewed to the left. 
+ 
+ 
+D & D1  Bivariate analysis
+The first variables I did a bivariate analysis on were both continuous variables–”Income” and “Doc_visits”. The points were spread across most of the chart, showing a pretty random distribution.  The line of best fit is flat, which indicates there is no real dependency.
+ 
+ 
+
+	The second bivariate analysis I did was two categorical variables.  I set up a crosstab table as my base for a stacked bar chart.  “Initial_admin” and “HighBlood” both had normal distributions. Emergency Admissions were the highest count. There were fewer patients with high blood pressure than with blood pressure overall and in each category.
+  
+ 
+	My third bivariate analysis had continuous and categorical variables–”Gender” and “Initial_days”. The best type of visualization for these types of categories was a boxplot. I used Seaborn for this visualization. The medians across the three gender categories were all in the lower quartiles of the initial days, giving them all a positive skew.  Since the mean is skewed more at the lower quartiles with longer top whiskers, that would indicate they are right-skewed.  
+	The fourth bivariate analysis I did also used continuous and categorical variables–”Services” and “Doc_vistis”. I decided to use another Python library since it was the same type as my third analysis to compare how those would look.  I used Plotly boxplots for this visualization. In this case, the mean was fairly even across the middle of all the Services categories.  The biggest differences came from the whiskers.  Blood work, Intravenous, and MRI all had similar whisker lengths, with the upper whiskers being shorter than the lower whiskers. This indicates a left skewing on those categories.  The CT Scan has a much more symmetrical shape as the whiskers are about the same length, slightly differentiating it from the other categories.  
+ 
+
+E1 
+	The first step I took was to get familiar with my variables.  I used info() and value_counts() since these are categorical variables.	My next step was to set up a crosstab I could use in the ChiSquare test. I ran the chi2_contingency function to perform the ChiSquare test and check for statistical significance.  I used print() to examine the crosstab table, ChiSquare statistic, p-value, and degree of freedom.  
+	In the case of my research question, the Null Hypothesis was that readmissions are independent of asthma.  The Alternative Hypothesis is that readmissions are not independent of asthma. I used a standard alpha of .05 as my alpha.  The ChiSquare statistic was 2.94, with a p-value of 0.57 and a degree of freedom of 4. Using a standard alpha of 0.05, I failed to reject the null hypothesis because the p-value was greater than 0.05. This indicates there is no statistically significant association between asthma and hospital readmissions. These results suggest that asthma status does not influence the likelihood of readmissions in this dataset.
+
+E2 
+	One limitation to the variables used in this research question could be any conditions that could be confounding variables (Hayden et al.). For instance, pollution levels could be something that impacts asthma.  Weather, pollen, or whether the patient owns a pet could all be other factors leading to more asthma issues.  If we could use that data, there’s the possibility that filtering asthma patients by higher-risk environmental factors may show something different in the correlation.  Without accounting for confounding variables, this analysis could yield misleading conclusions. 
+Another key limitation of using chi square method is that it checks for whether two variables are independent of each other.  What it is not confirming is causation (n.d., The Chi-Square Test for Independence).  Policy decisions could be made based on this analysis.  Those decisions could be flawed or causation could potentially be assumed if further analysis and testing is not done besides just a chi square test.
+The chi-square test can identify that two variables are associated but does not indicate the  strength of the relationship.  
+
+E3 
+	I recommend not shifting additional resources or making policy changes centered around asthma. There is no statistical evidence that asthma is correlating to more readmissions.  Whatever policies or resources currently are statistically appear to address that condition adequately. I don’t recommend additional research at this time with this data set. Still, if a larger data sample is available in the future this could be a variable to look at the time that is available. 
+
+F 
+Panopto video link was added to task links as well as sharing that link here:   https://d2y36twrtb17ty.cloudfront.net/sessions/e17d9331-73ff-4b13-abbf-b281013fde79/893c29c9-3037-46e3-9969-b281013fde82-0d1039f1-e083-41a0-8ac0-b2810142b7a6.mp4?invocationId=d5594199-b0e8-ef11-8293-12b1cb861383
+
+G.  Code citation
+Python for Data Science (2024). Chi-square Test of Independence. Retrieved January 21, 2025, from https://www.pythonfordatascience.org/chi-square-test-of-independence-python/
+
+Western Governors University (n.d.). D207 Exploratory Data Analysis Webinar [PowerPoint Slides]. Retrieved January 21, 2025, from https://westerngovernorsuniversity-my.sharepoint.com/:p:/g/personal/william_sewell_wgu_edu/EbIWOqJp0oJFrByVqCO5wfgB5vw_YUbFGRMp1Om2_y89ZA?e=sevL3g
+
+Hayden, Luke, Ismay, Chester, Peterson, Amy. (n.d.), Performing Experiments in Python [online course]. Data Camp. https://app.datacamp.com/learn/courses/performing-experiments-in-python
+
+Statology (2021, November 21). How to Perform Univariate Analysis in Python (With Examples). Retrieved January 27, 2025, from https://www.statology.org/univariate-analysis-in-python/
+
+Kaggle (n.d.). Univariate plotting with pandas. Retrieved January 27, 2025, from https://www.kaggle.com/code/residentmario/univariate-plotting-with-pandas
+
+Statology (2021, November 22). How to Perform Bivariate Analysis in Python (With Examples). Retrieved January 27, 2025, from https://www.statology.org/bivariate-analysis-in-python/
+
+Statology (2023, November 27). A Quick Guide to Bivariate Analysis in Python. Analytics Vidha. Retrieved January 27, 2025, from https://www.analyticsvidhya.com/blog/2022/02/a-quick-guide-to-bivariate-analysis-in-python/
+
+Plotly Graphing Library (n.d.). Bar Charts in Python. Retrieved January 27, 2025, from https://plotly.com/python/bar-charts/
+
+Stack Exchange (n.d.). Plot Two Categorical Variables. Retrieved January 27, 2025, from https://datascience.stackexchange.com/questions/89692/plot-two-categorical-variables
+
+H.  In-text citations
+
+Kent State University (2024, November 26). Chi-Square Test of Independence. Kent State University Libraries. Retrieved January 21, 2025, from https://libguides.library.kent.edu/spss/chisquare
+
+Hayden, Luke, Ismay, Chester, Peterson, Amy. (n.d.), Performing Experiments in Python [online course]. Data Camp. https://app.datacamp.com/learn/courses/performing-experiments-in-python
+University of Utah (n.d.). The Chi-Square Test for Independence. Department of Sociology. Retrieved February 8, 2025, from https://soc.utah.edu/sociology3112/chi-square.php
+
+
+I.  Demonstrate professional communication in the content and presentation of your submission.
+
