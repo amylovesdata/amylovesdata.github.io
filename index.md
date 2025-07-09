@@ -28,5 +28,5 @@ Project four: Course project for Exploratory Data Analysis
 
 Project five: Tableau dashboard for Representation and Reporting
 
-[Click here to go to dashboard](https://public.tableau.com/views/D210Dashboard_17488947015810/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
+[Click here to go to dashboard](https://public.tableau.com/views/D210Dashboard_17488947015810/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
