@@ -24,11 +24,9 @@ Project three: Course project for Data Cleaning
 
 Project four: Course project for Exploratory Data Analysis
 
-[Click here to go to dashboard](https://public.tableau.com/views/D210Dashboard_17488947015810/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
-
 [Click here to go to project](_posts/2025-04-03-D207.markdown)
 
 Project five: Tableau dashboard for Representation and Reporting
 
-
+[Click here to go to dashboard](https://public.tableau.com/views/D210Dashboard_17488947015810/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
 
