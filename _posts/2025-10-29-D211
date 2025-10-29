@@ -1,0 +1,142 @@
+Course: Advanced Data Acquisition - D211
+
+SLM2 Task 1: Data Analysis
+
+Student name: Amy Pett
+
+ID number: 012220223
+
+Date: 8/5/25
+
+ 
+Part 1:  Data Dashboards
+A1
+See attached data sets submitted with this task
+•	WGU provided dataset–medical_data
+•	Public data set–Pollution_2022_2023.csv
+
+A2 Steps to view dashboards
+1.	Open your version of Tableau.
+2.	Click the File tab .
+3.	Click Open.
+4.	 
+5.	Navigate to the folder the twbx file is located on your computer
+a.	The file name should be D211 dashboard.tbwx as it has been uploaded to this assessment
+6.	Click the Open button 
+7.	Type in the password (Pass0rd!) and click Sign In
+
+A3 Steps to navigate dashboards
+1.	My recommendation is to start with the About tab, which has basic information about the dashboards, including tips on navigating the dashboards.
+2.	There are two dashboards and eight individual worksheets that are used in the dashboards.
+a.	Environmental risks shows readmissions by states, O3 AQI by states,NO2 AQI by states, and O3 AQI and NO2 averages by months
+i.	This dashboard can be filtered by clicking on any state on the Ave O3 AQI by State map 
+ii.	The filter can be removed by clicking on the state again.
+b.	Demographic risks shows readmissions of patients by Complication Risk, Gender, Age Group, and Marital Status
+i.	This dashboard can be filtered by clicking on any bar in each demographic visual. This will filter all of the visuals in the dashboard by that criteria.
+   
+ii.	The filter can be removed by clicking on the bar again.
+
+A4 Code
+
+CREATE TABLE air_quality
+(
+    Record_ID integer PRIMARY KEY,       
+    Date date,                          
+    Address text,
+    State text,
+    County text,
+    City text,
+
+    O3_Mean numeric(6,5),
+    O3_1st_Max_Value numeric(6,3),
+    O3_1st_Max_Hour integer,
+    O3_AQI integer,
+
+    CO_Mean numeric(6,3),
+    CO_1st_Max_Value numeric(6,3),
+    CO_1st_Max_Hour integer,
+    CO_AQI integer,
+
+    SO2_Mean numeric(8,5),
+    SO2_1st_Max_Value numeric(6,3),
+    SO2_1st_Max_Hour integer,
+    SO2_AQI integer,
+
+    NO2_Mean numeric(8,5),
+    NO2_1st_Max_Value numeric(6,3),
+    NO2_1st_Max_Hour integer,
+    NO2_AQI integer
+);
+
+COPY air_quality
+FROM 'c:\users\public\pollution_2020_2023.csv'
+DELIMITER ','
+CSV HEADER;
+
+DELETE FROM air_quality
+WHERE date < '2022-01-01'; 
+
+SELECT record_id, COUNT(record_id) AS DuplicateCount
+FROM air_quality
+GROUP BY record_id
+HAVING COUNT(record_id) > 1
+
+COPY air_quality
+TO 'c:\users\public\pollution_2022_2023.csv'
+DELIMITER ','
+CSV HEADER;
+
+ Part 2:  Demonstration
+Panopto video link has been submitted with the assessment.  See also here: https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d67a01d0-52c5-463c-bfa9-b347011dc2e9
+Part 3:  Report
+C1
+The purpose of the dashboards is to help hospital administrators and clinical leaders understand the extent and drivers of patient readmissions across a nationwide hospital chain. Because CMS imposes financial penalties for excessive readmissions, stakeholders need clear, actionable insights into which populations and locations are most at risk.
+The dashboards highlight readmission patterns across states and demographic groups. This allows hospital leadership and executives to anticipate where CMS penalties may be highest, helping them prioritize resources and budget planning. 
+	This can also help with an operational decision-making level for clinical managers and care teams. By showing readmissions segmented by complication risk, gender, age group, and marital status, the dashboards reveal which patient populations are most vulnerable. Care teams can use this information to implement targeted interventions. For instance, the medium-risk groups actually had the highest rate of readmissions.  It could be that the high-risk group is already being provided additional post-care, but the same type of interventions could also be applied to medium-risk patients. 
+The environmental risks could be useful for regional and local public health and community outreach teams. The data is state-specific. This equips public health teams to understand external, non-clinical factors affecting readmissions, and to collaborate with community health organizations on prevention strategies.
+	The dashboards directly align with stakeholder needs by moving beyond static reports to provide interactive, actionable insights. They bridge the gap between raw data and strategic decision-making, empowering hospital leadership to reduce readmissions, minimize financial penalties, and improve patient outcomes. 
+C2
+ 	Tableau is an appropriate business intelligence tool for this project because it aligns closely with the analytical and communication needs of hospital stakeholders who must monitor, understand, and act on readmission data. It provides interactive, user-friendly dashboards that turn complex medical and environmental data into actionable insights. This allows hospital leadership to reduce readmissions, anticipate penalties, and improve patient care outcomes.
+For hospital administrators and clinical teams—who may not have advanced technical or statistical backgrounds—this ensures that insights into readmissions, demographics, and environmental factors are both accessible and easy to interpret. Stakeholders need to quickly drill into the data by state, demographic group, or complication risk to identify root causes of high readmission rates. Tableau’s intuitive filtering and dashboard interactivity allow users to do this seamlessly, without requiring additional queries or manual reports.
+Tableau also allows for easy integration.  Medical readmission data often comes from multiple systems (electronic health records, CMS reports, environmental databases). Tableau can connect to and integrate these diverse sources, ensuring a single point of access for stakeholders. Also, linking directly to the database allows for up-to-date information.  Static reports are only a snapshot in time, whereas these Tableau dashboards are dynamic. 
+Because the hospital chain operates across multiple states, Tableau’s ability to publish dashboards to Tableau Server or Tableau Cloud supports collaboration. Leaders at different facilities can access the same dashboards, filtered to their region, ensuring consistent reporting and decision-making.
+C3
+I chose to create a table and copy the dataset directly into the database for the public dataset using PostgreSQL. I dropped rows for any data previous to 1/1/2022.  The reason for this is that it was slowing down the WGU lab on-demand environment, and because there are limits on the size of attachments I can use when submitting the assessments.  In a real-world scenario, I would have used the entire data set for better trending analysis and forecasting.  However, in this situation, the original public dataset was larger than is allowed by the system limitations.
+I then ran code to check for duplicates.  There were no duplicates so no further actions were needed for that treatment. 
+ 
+
+C4
+I opened Tableau and connected to a server, specifically PostgreSQL.  I set the parameters–database, password, etc–and signed in.  I moved the tables I’d need to create my visualizations to the canvas. I made sure the “location” and “air_quality” tables had a relationship union using the state field from each table. With all of this set, I was ready to create the visualizations needed for my dashboards.
+ 
+I created worksheets for the 8 different visualizations I wanted to use on my dashboards. Five were specific to the WGU-provided data set, and the final three were based on the public dataset. I filtered each of the WGU dataset worksheets by “readmissions” = yes. The focus of this analysis was readmissions, so I chose to do that on the worksheet level.
+•	Readmissions by complication (WGU)
+•	Readmission by gender (WGU)
+•	Readmissions by Age (WGU)
+•	Readmission by marital (WGU)
+•	Readmissions by state (WGU)
+•	Ave 03 AQI by state (Public)
+•	NO2 AQI by state (Public)
+•	Pollution by month (Public)
+
+ 
+	I then created two dashboards.  I had both demographic data and environmental/air quality data.  Eight visualizations on one dashboard is too much information to take in. Also, the air_quality data did not have any connections to the demographic data so it made sense to put that on another dashboard.  This categorized the different types of data points that could impact readmission and allowed for better associated filtering within the dashboard.
+	The environmental risks dashboard contains 3 heatmap visualizations and one line chart showing the month-over-month data. You can filter by clicking on the states in the AQI heatmaps.  
+	The demographic risk dashboard has 4 bar charts sorted by total readmissions on all charts. You can filter this dashboard by clicking on any of the bars. 
+The first tab you will actually come to in the workbook is an “About” page.  This has information about the Business Scenario, Data sets, and how to navigate the dashboards. This is to give users a basic understanding of where the data is from and tips on using the dashboards.  The goal is to make it user-friendly.
+C5
+The data analysis from the dashboards supports the purpose of the dashboards–to help stakeholders understand and reduce readmissions. You could quickly and clearly see there was a connection between states with high O3 and NO2 AQI and higher readmission rates simply by seeing the colors on both maps.  The month-by-month O3 & NO2 averages chart allows for seasonally driven initiatives since there are clear trends at different points in the year.
+It was also easy to see which groups had more readmissions by demographic factor. It was surprising that medium-risk complications had much higher readmission rates than high-risk.  The data can’t tell us why, but that gives care teams the information that they can act on. Women had slightly more readmissions than men.  The age category 70-79 had the most readmissions. Widowed patients also had the most readmissions.  We can’t place causation on any of these factors, but it gives the care teams a place to start.  
+C6
+The medical_data database did not contain any date fields.  This makes it difficult to connect or forecast readmissions with poor air quality since the different pollutants can vary day by day and month by month.  There are some clear trends in air quality.  If we had dates of the readmissions, it would be easy to compare them and see if there is a connection.  As of now, we can only see which states have higher rates of pollution.  There have been studies finding links between air quality and hospitalizations.  In a recent study, the authors found that a “10-unit increase in daily overall AQI was associated with a daily increase of 3.8%” of hospitalizations (Ahmed & Hossain, 2025). 
+While patterns were observed between environmental quality, demographic factors, and readmission rates, the analysis cannot prove causal relationships. For example, higher AQI in a state may be associated with higher readmissions, but this does not mean air quality alone caused the readmissions. It could be influenced by other unmeasured health and social factors.
+Other drivers of readmissions that the datasets don’t account for could be medication adherence or mental health conditions.  Additionally, per the scenario, the CMS added COPD and hip and knee replacement to the list of medical conditions measured.  Those conditions are not part of this dataset.  Incomplete data is a big risk of missing factors that are risks for readmissions.
+
+D Data/Code sources
+Khan, Maham. (n.d.). Joining data in SQL. DataCamp. https://app.datacamp.com/learn/courses/joining-data-in-sql
+Ludolf, Jasmin. (n.d.). Intermediate SQL DataCamp. https://app.datacamp.com/learn/courses/intermediate-sql
+GusLovesMath. (2023.) U.S Pollution Data 2000-2023. Version 4. Kaggle. https://www.kaggle.com/datasets/guslovesmath/us-pollution-data-200-to-2022/data
+E In-text citation
+Ahmed, T., & Hossain, R. (2025). Association Between Air Quality Index (AQI) Variability and Hospital Admissions for Lung Diseases: A Longitudinal Study. MedRxiv. https://doi.org/10.1101/2025.06.03.25328871
+
+F Professional communication
+ 
