@@ -1,0 +1,115 @@
+
+Course: Data Mining II - D212
+
+OFM4 Task 2: Dimensionality Reduction Methods
+ 
+Student name: Amy Pett
+ 
+ID number: 012220223
+ 
+Date: 9/29/2025
+
+ 
+Part I: Research Question
+A1 
+	Can PCA be used to identify the main components that explain the most variation in patient health and cost-related variables?
+
+A2 
+
+The goal of this PCA analysis is to identify the key underlying components that explain the greatest variation in patient data, in order to uncover groups of patients with similar health and cost characteristics. This will help simplify complex relationships among variables, including these continuous variables: Children, VitD_levels, Full_meals_eaten, Initial_days, Age, Doc_visits, vitD_supp, TotalCharge.
+Part II: Method Justification
+B1 
+	The PCA analysis consists of normalizing the data, calculating the principal components (PC), visualizing the PCs, calculating variance/Eigenvalues, and then selecting the PCs to keep. 
+
+	For this analysis, the first step is to normalize the data.  The different variables have different scales, which can lead to skewed results.  I ran pca=PCA(n_components=nomr_dfPCA.shape[1]) to calculate the columns of the normalized data.  Then I ran PCA=pca.fit_transform(norm_dfPCA), which calculates the principal components, then converts the original normalized data into a new dataset where the columns are now these principal components (PC).  pca.fit(norm_dfPCA) calculates the columns, which in this analysis were 9.
+ 
+The next step was setting up the loading matrix.  The loading matrix is a way of visualizing the relationships between the principal components (Chouinard, 2023). The matrix shows us whether a given PC has a positive or negative relationship to each variable as well as how strong that relationship is.  Essentially, the higher the absolute value, the closer the relationship, and the lower the absolute value, the less of a relationship there is. 
+ 
+	The next step I took was to look at the variance.  I ran exp_var=pca.explianed_variance_ratio_.  I had the index start at 1 instead of 0 by preference.  Then I visualized it using a scree plot to evaluate by the elbow method. I also ran code to view the variance of the top components and the total variance captured by all the PCs.
+ 
+ 
+ 
+
+ 
+	Finally, I evaluated based on the Kaiser rule.  I did this by running the code var=pca.explained_variance_.  Then I set up a visualization to show the Eigenvalues.  I also ran code to view the variance of the top components and the total variance captured by all the PCs for this evaluation of the analysis.
+ 
+ 
+
+ 
+	After I analyzed using both the Elbow and Kaiser method to evaluate the results, I was able to determine the number of PCs to keep.  I felt confident in that number, even though I got slightly different results in each method, but by comparing them, it was apparent which number of PCs was the best choice. 
+	The PCA analysis should reveal which variables contribute most to variation among patients and simplify the dataset into a smaller number of meaningful components. This enables easier identification of patterns in patient cost and health factors.
+B2 
+One assumption of PCA is that the components with the highest variance represent the most important data (Kelta, 2023).  In other words, PCA assumes that variability reflects meaningful information rather than random noise. Variables or components with low variance are assumed to contain less useful information, while those with high variance are assumed to capture the underlying relationships within the dataset.
+Part III: Data Preparation
+C1  
+
+Variable	Type
+Children	Continuous
+VitD_levels	Continuous
+Full_meals_eaten	Continuous
+Initital_days	Continuous
+Age	Continuous
+Doc_visits	Continuous
+vitD_supp	Continuous
+TotalCharge	Continuous
+
+
+C2 
+
+See cleaned data set attached with this assessment: medical_clean_task2.csv
+
+ 
+Part IV: Analysis
+D1 
+	The total number of principal components was nine. 
+
+ 
+
+D2 
+	I decided to evaluate the results using both the Elbow and Kaiser methods.  I did this to compare both evaluations so I would have higher confidence in the results. There were differences in the total PC’s indicated by using both methods.
+Elbow Method
+
+	The PC variance leveled out after 3 PCs per scree plot I ran to visualize the results.
+ 
+Kaiser Method
+
+	When I evaluated using the Kaiser Criterion, the scree plot indicated four PCs had values of or over 1.00.  
+D3 
+
+Elbow Method
+I took the variance top three PCs as well as the overall variance.  All three top PCs had values over a value of 1—(PC1) 1.99418693, (PC2) 1.71459019, (PC3) 1.03645414. 
+ 
+
+Kaiser Criterion
+I took the variance/eigenvalues of the top four PCs. All four PCs had variance/eigenvalues of or over 1.00:  (PC1) 1.99418693, (PC2) 1.71459019, (PC3) 1.03645414, (PC4) 1.00794227. 
+ 
+D4 
+
+Elbow Method
+	The total variance captured by the principal components was 0.1333.
+ 
+
+Kaiser Method
+	The total variance captured by the principal components was 0.6391.
+ 
+
+D5 
+	The results did vary slightly by method.  The Elbow method indicated three components whereas the Kaiser method indicated four components.  The overall variance for the Elbow method was 0.1333 and for the Kaiser method it was 0.6391.  I decided to keep four PCs based on the higher overall variance value for the top four components.  The fourth component is barley over a value of 1 but it is over 1, so in the end.  Also, the higher overall variance of 0.6391 indicated to me this was the better total number of components. This decision maximized the proportion of variance captured, ensuring that the selected components effectively represent the most important structure in the dataset.
+ 
+Part V: Attachments
+E.  Code citation
+ 
+[Middleton, Keiona]. (n.d.). D206 - Getting Started with D206 | PCA [Video]. Wgu.Hosted.Panopto.com. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=3bcc452f-fa35-43be-b69f-b05901356f95
+Browne-Anderson, Hugo. (n.d.). Introduction to Python. DataCamp. https://app.datacamp.com/learn/courses/intro-to-python-for-data-science
+Kamara, K. (n.d.). PCA Data Preprocessing. Retrieved October 12, 2025, from https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b094cb1f-ba6f-40c1-a033-b140010a4314
+
+Kamara, K. (n.d.). Create PCA Object and Analyze Data. Retrieved October 12, 2025, from https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d656d2c9-9409-41e0-a01c-b14001099afa
+
+F.  In-text citation
+ 
+Kelta, Z. (2023, February 13). Principal Component Analysis in R Tutorial. Retrieved October 12, 2025, from https://www.datacamp.com/tutorial/pca-analysis-r
+Chouinard, J. C. (2023, December 5). What are PCA Loadings (with Python Example). JC Choinard. Retrieved October 20, 2025, from https://www.jcchouinard.com/pca-loadings/
+
+G.  Professional Communication
+
+
