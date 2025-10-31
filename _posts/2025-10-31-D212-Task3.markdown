@@ -21,8 +21,6 @@ Part II: Market Basket Justification
 B1 
 	The data was first processed using the TransactionEncoder() to transform prescription data into a crosstab format representing all transactions and prescribed items. Then, null values were dropped for data integrity.  This prepared the data for the Market Basket Analysis.
 
-	 
- 
 	With the dataset prepared the Apriori algorythm is run.  I ran my code with a support minimum of 0.003 to focus on meaningful but less frequent prescription combinations.
  
 	Finally the association rules were generated. 
