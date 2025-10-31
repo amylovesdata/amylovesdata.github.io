@@ -33,7 +33,7 @@ Project five: Tableau dashboard for Representation and Reporting
 Project six: Course projects for Data Mining II
 
 [Click here to go to written assessment](_posts/2025-10-29-D211.markdown)
-[Click here to go to dashboard](https://public.tableau.com/views/D210Dashboard_17488947015810/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+Dashboard was created in a lab environment 
 
 Project seven: Course projects for Advanced Data Analytics
 
