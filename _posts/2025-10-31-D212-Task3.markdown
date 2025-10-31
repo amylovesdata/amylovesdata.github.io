@@ -1,7 +1,7 @@
 
 Course: Data Mining II - D212
 
-OFM4 Task 3: Clustering Techniques
+OFM4 Task 3: Association Rules and Lift Analysis
  
 Student name: Amy Pett
  
