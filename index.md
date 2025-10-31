@@ -33,7 +33,8 @@ Project five: Tableau dashboard for Representation and Reporting
 Project six: Course projects for Data Mining II
 
 [Click here to go to written assessment](_posts/2025-10-29-D211.markdown)
-Dashboard was created in a lab environment 
+
+Dashboard was created in a temporary lab environment 
 
 Project seven: Course projects for Advanced Data Analytics
 Task 1: Clustering Techniques
