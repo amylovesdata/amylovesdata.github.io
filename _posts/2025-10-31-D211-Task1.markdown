@@ -1,0 +1,222 @@
+
+Course: Data Mining II - D212
+
+OFM4 Task 1: Clustering Techniques
+ 
+Student name: Amy Pett
+ 
+ID number: 012220223
+ 
+Date: 9/8/2025
+
+ 
+Part I: Research Question
+A1
+
+Can we identify patient clusters based on TotalCharge and Intial_daysI using K-means clustering analysis to help the hospital understand cost patterns?
+A2 
+
+Hospitals can provide more cost-effective care when they understand the characteristics of their patients. One goal would be to identify if there are any natural groupings of the patients regarding their TotalCharge.  Hopefully, it will be obvious that there are certain groupings, such as low charge, medium charge, or high charge.  Those groups wouldn’t already be defined, but the goal is to see some kind of group like that, which would make it obvious. 
+
+Part II: Technique Justification
+B1 
+The K-means clustering algorithm is employed in this analysis to identify distinct groupings within the patient population. The variables TotalCharge and Initial_days were used to look for clusters that reveal underlying patterns in patient cost and hospital stay duration.
+K-means begins by selecting a predetermined number of cluster centers, or centroids. Each data point is assigned to the cluster with the nearest centroid based on distance. After all points are assigned, the algorithm recalculates the centroids as the mean position of the data points within each cluster.  It assigns the data points to the cluster with the nearest mean.  This is an iterative process that optimizes the assignments to the centroids. Then it sets the cluster mean as the mean of all the data points (Winn, 2015).
+The expected outcome of this analysis is the identification of natural, distinct patient clusters within the dataset. Successfully defined clusters will segment the patient population into meaningful groups based on TotalCharge and Initial_days, informing operational strategies such as resource allocation and customized financial planning.
+B2
+One assumption of K-means is that the clusters have “the same variance” (Winn, 2015).  In this analysis, we expect the clusters to be approximately the same size. This assumption would be violated if a variable in the analysis fluctuates significantly.  
+
+B3 
+Library	Use
+pandas	importing data into data frames
+numpy #	creating arrays
+matplotlib.pyplot 	create visualizations
+seaborn 	create visualizations 
+sklearn.model_selection:  train_test_split 	normalize data
+sklearn.preprocessing: StandardScaler 	standardize features
+sklearn.cluster: K-means 	K-means clustering analysis
+sklearn.metric: silhouette_score	 analyze by silhouette score
+
+ 
+Part III: Data Preparation
+C1 
+
+	One preprocessing goal was to assess and prepare the dataset for K-means clustering. I loaded the dataset into Jupyter notebooks to review variable types and check for data quality issues such as null or duplicate values. Ensuring a clean dataset is essential for K-means, which is sensitive to missing or inconsistent data because it relies on distance calculations to form clusters
+
+C2 
+
+TotalCharge	Continuous
+Initial_days	Continuous
+
+
+C3 
+First, I checked for null or duplicate values.  There were no nulls or duplicates, so no further processing was done for that part.
+   
+ 
+	Then I dropped all the variables I was not using in the K-means analysis.
+ 
+Next, I set up my data frame and examined the data in preparation for the K-means analysis.
+ 
+Next, I normalized the data by using StandardScaler().  I fit the variables and set up a data frame with my variables. This step was taken to ensure equal weighing between the variables. 
+ 
+C4  
+See the cleaned data set file attached to this assessment: medical_clean_task1.csv
+ Part IV: Analysis
+D1 
+	 I determined the optimal number of clusters was two.  The initial scatterplot visually showed 2 possible groups.  After creating the centroids and running the scatterplot again, there were still two visually distinct groups.
+	I then used the WCSS to create a line plot of the optimal number of clusters.  There was a distinct, large drop from one to two clusters.  While there was a slight drop from two clusters to three, subjectively, it appeared to me that the clusters were pretty flat for any number over two.  I think you could argue either way just based on the WCSS output.
+ 
+Rather than use a subjective measure, I ran the silhouette score for both models.  The score for three clusters was 0.67 and the score for two clusters was 0.8. Since two clusters gave me a score closer to +1 (Geeksforgeeks, 2025), I determined that was in fact the better number of clusters. 
+Silhouette score using three clusters for K-means:
+ 
+Silhouette scores using two clusters for K-means:
+ 
+ 
+
+D2 
+
+See also Jupyter notebook attached to this submitted assessment: D212 Task 1 Jupyter notebook.pdf
+
+#set up data frame
+scaled_df=pd.Data frame(scaled_df, columns=['Initial_days', 'TotalCharge'])
+scaled_df
+
+ 
+#Normalize data using z-score with StandardScaler from sklearn
+scaler=StandardScaler()
+
+scaled_df=scaler.fit_transform(df[['Initial_days', 'TotalCharge']])
+
+
+#set up data frame
+scaled_df=pd.Data frame(scaled_df, columns=['Initial_days', 'TotalCharge'])
+scaled_df
+
+#explore normalized data
+scaled_df.describe().round(2)
+
+#Create scatterplot
+ax=sns.scatterplot(data=df,
+                   x='Initial_days',
+                   y='TotalCharge',
+                   s=50)
+
+#Instantiate K-means
+k_model=K-means(n_clusters=2, n_init=25, random_state=300)
+
+k_model.fit(scaled_df)
+
+#Evalute model
+evalute=pd.Series(k_model.labels_).value_counts()
+evalute
+
+#create centroids
+centeroid=pd.Data frame(k_model.cluster_centers_,
+                       columns=['Initial_days', 'TotalCharge'])
+centeroid
+
+#create visualization
+plt.figure(figsize=(12,10))
+
+ax=sns.scatterplot(data=scaled_df,
+                   x='Initial_days',
+                   y='TotalCharge',
+                   alpha=0.9,
+                   s=150,
+                   legend=True)
+
+ax=sns.scatterplot(data=centeroid,
+                   x='Initial_days',
+                   y='TotalCharge',
+                   alpha=0.9,
+                   s=900,
+                   marker="D",
+                   edgecolor='black',
+                   legend=False)
+
+for i in range(len(centeroid)):
+    plt.text(x=centeroid.Initial_days[i],
+             y=centeroid.TotalCharge[i],
+            s=i,
+            horizontalalignment='center',
+            verticalalignment='center',
+            size=15,
+            weight='bold',
+            color='white')
+
+#use within cluster sum of squares to evaluate quality of clusters
+wcss=[]
+for k in range(1,10):
+    model=K-means(n_clusters=k, n_init=50, random_state=100)
+    model.fit(scaled_df)
+    wcss.append(model.inertia_)
+wcss_s = pd.Series(wcss, index=range(1, 10)) 
+
+plt.figure(figsize=(12,10))
+ax=sns.lineplot(y=wcss_s, x=wcss_s.index)
+ax=sns.scatterplot(y=wcss_s, x=wcss_s.index, s=200)
+ax=ax.set(xlabel='Optimal Clusters Number (k)',
+          ylabel='Within Cluster Sum of Squares (WCSS)')
+
+#set up silhouette score
+silhouette_avg=silhouette_score(scaled_df, k_model.labels_) 
+print("For n_clusters =", k, "The average silhouette_scores is:", silhouette_avg)
+
+silhouette=[]
+for k in range(2,10):
+    model=K-means(n_clusters=k, n_init=50, random_state=100)
+    model.fit(scaled_df)
+    silhouette.append(silhouette_score(scaled_df, model.labels_))
+
+silhouette_s=pd.Series(silhouette, index=range(2,10))
+
+plt.figure(figsize=(12,10))
+ax=sns.lineplot(y=silhouette_s, x=silhouette_s.index)
+ax=sns.scatterplot(y=silhouette_s, x=silhouette_s.index, s=200)
+ax=ax.set(xlabel='Optimal Clusters Number (k)',
+          ylabel='Silhouette Score Average')
+
+Part V: Data Summary and Implications
+E1  
+	The WCCS for 2 clusters does show that there are 2 distinct groupings.  The Silhouette Score of 0.8 for 2 clusters also indicates 2 distinct groupings.  Both results suggest a strong argument for two groups.  However, the groupings are not spherical.  They’re more elongated. That could mean K-means is not the best method for this data. 
+E2 
+	The K-means clustering analysis, using the features Initial_days and TotalCharge, identified two distinct clusters within the dataset. The clusters were nearly equal in size, with 5,003 and 4,997 observations, respectively, suggesting a balanced natural grouping.
+ 
+	The Within-Cluster Sum of Squares (WCCS) value of 2 and the Silhouette score of 0.8 demonstrate that the clusters are both compact and well-separated, confirming strong overall clustering performance. However, the elongated shape of the clusters indicates a linear relationship between the two features, which may limit K-means’ effectiveness due to its assumption of spherical clusters.
+  
+
+	Future analyses could employ different analysis algorithms to more effectively capture the stretched and correlated structure of the data. Overall, the results reveal two clearly defined groups distinguished primarily by overall magnitude in both Initial_days and TotalCharge, providing insight into differing usage or cost behavior patterns.
+
+E3 
+	The main limitation was the elongated nature of the groupings.  One of the assumptions of K-means that was not mentioned in Section B2 is that the groups will be spherical (Winn, 2015).  The results here strongly indicate two groups but may show more correlation than what we’re looking for, which is patient groups. 
+E4
+Because the clusters were elongated rather than spherical, this analysis did not yield deep insight into patient groupings. We can see that there are two groups.  This does provide some information about how long patients stay and could be categorized as high or low-cost groups.  It’s possible there are some other groupings we’re not seeing due to the type of clustering technique used. A reasonable next step would be to apply a different clustering technique, such as hierarchical clustering, which can better accommodate the shape and correlation of the data.	
+One action that could be taken is a trigger when patient approaches the upper limit in the number of days stayed on the lower cost group.  This could trigger additional resources or care policy to try and help those patients stabilize and get to the point where they are ready to be discharged appropriately.  
+Additionally, incorporating more variables into a new analysis may reveal insights that are more actionable. There are additional variables in the dataset that could be used in more complex analyses to provide further insights or groupings. These steps would enable the hospital to better identify meaningful patient segments and develop strategies to optimize costs and resource allocation.   
+Part VI: Demonstration
+F Panopto video
+
+Link also submitted with this assessment:  https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=72b20ac4-59af-4c1d-b72c-b37c0134bf92 
+ 
+G.  Code citation
+
+Wilson B., Ray Y., Bowne-Anderson H. (July 2025). Unsupervised Learning in Python.  Data Camp. https://app.datacamp.com/learn/courses/unsupervised-learning-in-python
+
+Kamara, K., Dr. (n.d.) Constructing and running the K-means Model_default [Video Lecture]. WGU. Date Accessed 9/23/25. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=8048d616-4d5f-4625-accd-b0ee01873eba
+
+Kamara, K., Dr. (n.d.) Evaluating and visualizing the model_default [Video Lecture]. WGU. Date Accessed 9/25/25. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=9fa8783e-d7d2-4b4d-b06e-b0ee01874bea
+
+
+Kamara, K., Dr. (n.d.) Anayze and interpret K-means results_default [Video Lecture]. WGU. Date Accessed 9/25/25. https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=3fe13831-fe4b-4c6b-a3eb-b0ee018754bc
+
+H.  In-text citation
+
+Winn, J., Bishop, C., & Diethe, T. (2015). Model-Based Machine Learning. Microsoft Research. Advance online publication. https://www.mbmlbook.com/ModelAnalysis_K-means_Clustering.html
+
+CSIAS (n.d.). What is WCSS? Retrieved October 6, 2025, from https://www.csias.in/what-is-wcss/
+
+Geeksforgeeks (2025, June 23). What is Silhouette Score? Retrieved October 6, 2025, from https://www.geeksforgeeks.org/machine-learning/what-is-silhouette-score/
+
+I.  Professional Communication
+
+
