@@ -1,0 +1,119 @@
+
+Course: Data Mining II - D212
+
+OFM4 Task 3: Clustering Techniques
+ 
+Student name: Amy Pett
+ 
+ID number: 012220223
+ 
+Date: 10/12/2025
+
+ 
+Part I: Research Question
+
+
+A1 
+	Using market basket analysis can identify what combinations of prescriptions are most frequently co-prescribed among patients across the hospital chain?
+A2 
+Hospitals can provide more cost-effective care when they understand the characteristics of their patients.  When hospitals understand their patients, they can tailor policies and care treatments more effectively.  This can also lead to more effective long-term cost management.  The goal of this market basket analysis is to identify prescription combinations and the likely next prescription. 
+Part II: Market Basket Justification
+B1 
+	The data was first processed using the TransactionEncoder() to transform prescription data into a crosstab format representing all transactions and prescribed items. Then, null values were dropped for data integrity.  This prepared the data for the Market Basket Analysis.
+
+	 
+ 
+	With the dataset prepared the Apriori algorythm is run.  I ran my code with a support minimum of 0.003 to focus on meaningful but less frequent prescription combinations.
+ 
+	Finally the association rules were generated. 
+ 
+	At this point, the analysis of support, confidence, and lift was done. This gives insight into the ratio of prescriptions (support), the strength of the probability of the next item prescribed (confidence), and the highest chances of the next prescription (lift). 
+ 
+B2 
+(methylprednisone, lisinopril, carvedilol)
+B3 
+One assumption of market basket analysis is that if customers/patients purchase one product, then there’s a calculable likelihood that they will also purchase the next products (Market Basket Analysis, n.d.).  
+Part III: Data Preparation and Analysis
+C1 
+See the cleaned data set attached to this assessment: D212_task3_cleaned.csv
+C2 
+#apply Apriori algortythm
+frequent_prescriptions=apiori(data,min_support=0.003, use_colnumes=True)
+print(frequent_prescriptions)
+
+ 
+C3 
+There are three ways the Apriori algorithm analyzes the data–support, confidence, and lift. Support calculates the popularity or ratio of the overall transactions.  Confidence indicates the probability of various combinations.  Or in other words, how likely is it that if one “basket” of products is purchased (antecedents), another product will be purchased (consequents).  Lift calculates the increase in purchases in one product when another product is purchased (Selvaraj, 2023).
+Support
+	From this analysis, we know the top three most popular prescriptions are carvedilol, abilify, and diazepam. These are the “baskets” with the highest support calculations. In this case, the “baskets” were single-item prescriptions.
+
+ 
+Confidence
+The analysis found the prescriptions with the highest confidence of these three purchase combinations:
+1.	If metformin and metoprolol are prescribed, then there is 0.718 chance that abilifiy will also be prescribed
+2.	If metoprolol and glipizide are prescribed, then there is 0.666 chance that abilifiy will also be prescribed
+3.	If lisinopril and amlodipine are prescribed, then there is 0.644 chance that carvedilol will also be prescribed
+ 
+Lift
+	The analysis found the top three prescriptions with the highest meaningfulness for lift as follows:
+1.	Patients prescribed amlodipine are 10.13 times as likely to be prescribed acetaminophen
+2.	Patients prescribed acetaminophen are 10.13 times as likely to be prescribed amlodipine
+3.	Patients prescribed glipizide are 8.35 times as likely to be prescribed hydrochlorothiazide
+	
+ 
+C4
+When the data is sorted by lift, confidence, and support, the top three association rules provide insight into prescription patterns among patients:
+1.	If Carvedilol is prescribed, then Abilify is also likely to be prescribed.
+o	Support = 0.03 indicates that 3% of all patient prescriptions include both Carvedilol and Abilify together.
+o	Confidence = 0.335 means that when Carvedilol is prescribed, there is a 33.5% chance Abilify will also be prescribed.
+o	Lift = 2.819 suggests this co-prescription is 2.8 times more likely to occur together than by random chance.
+o	Interpretation: Patients taking Carvedilol (commonly for heart conditions (Carvedilol, 2023) are significantly more likely to also be prescribed Abilify (an antipsychotic (Puckey, 2025)), suggesting a potential overlap in patients with cardiovascular and mental health conditions.
+2.	If Abilify is prescribed, then Carvedilol is also likely to be prescribed.
+o	Support = 0.03, Confidence = 0.335, Lift = 2.819.
+o	These identical metrics confirm a bidirectional association, meaning the relationship holds true both ways. Patients receiving either drug are more likely to receive the other.
+o	Interpretation: This strengthens the pattern’s reliability, suggesting a consistent prescribing relationship rather than a coincidental pairing.
+3.	If Diazepam is prescribed, then Abilify is also likely to be prescribed.
+o	Support = 0.02, meaning the combination occurs in 2% of total prescriptions.
+o	Confidence = 0.254 indicates that when Diazepam is prescribed, there’s a 25.4% chance Abilify is also prescribed.
+o	Lift = 2.819 shows that this co-prescription is nearly three times more likely than by random chance.
+o	Interpretation: The link between Diazepam (an anti-anxiety medication (Puckey, 2024)) and Abilify suggests comorbidity patterns in patients managing both anxiety and psychiatric conditions.
+ 
+Part IV: Data Summary and Implications
+D1 
+The goal of this research was to identify medications that are frequently prescribed together. The market basket analysis measured the strength of these associations using support, confidence, and lift, each providing a different perspective on the data.
+Together, these three metrics provided a clear understanding of prescription patterns in the dataset. Support highlighted the most frequent combinations, confidence showed the reliability of those relationships, and lift confirmed which associations were statistically significant and valuable for clinical decision-making.
+D2 
+If we look at the top three rules per this analysis, we have three combinations: carvedilol and abilify, abilify and carvedilol, and diazepam and abilify.  This finding is significant because it reveals treatment trends and possible patient comorbidities within the hospital system. For example, carvedilol is often prescribed for cardiovascular conditions, while abilify is used for psychiatric disorders. Their frequent co-prescription could suggest a patient population managing both heart disease and mental health conditions, highlighting the need for coordinated care between cardiology and psychiatry departments.
+Understanding these associations can help the hospital improve medication management, monitor for potential drug interactions, and optimize inventory for commonly paired prescriptions. Additionally, identifying strong associations such as diazepam and abilify can guide patient safety initiatives by ensuring appropriate monitoring and follow-up for patients prescribed these combinations. Overall, these insights can support more targeted patient care strategies and improve cost-effectiveness through better coordination and inventory planning.
+D3
+	Hospital administrators should leverage insights from this analysis to design evidence-based care pathways around common comorbidities. While these associations do not establish causality, they highlight patterns that can guide proactive treatment planning. By recognizing frequent medication pairings, hospitals can develop integrated care programs that better address co-occurring chronic conditions and improve overall patient outcomes.
+I’m also recommending the implementation of a technology-driven flagging system that flags specific prescriptions.  It would alert pharmacy teams across the hospital network to proactively use these associations to identify and mitigate potential medication conflicts. By flagging combinations with known contraindications or side-effect risks, pharmacists can intervene earlier, thereby preventing adverse drug events, avoiding unnecessary treatments, and improving patient safety across the continuum of care.
+Supply chain and procurement teams should integrate these findings into forecasting models to anticipate fluctuations in medication demand. Understanding which prescriptions tend to rise together allows for more efficient inventory management, reduces the likelihood of stock shortages, and supports cost-effective bulk purchasing strategies. These measures can lower operational costs while maintaining reliable patient access to essential medications.
+Part V: Attachments
+E. Panopto video
+
+Link also submitted with this assessment:  https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f3705ab7-7fcd-4cef-b3b2-b383012b6de5
+
+ F.  Code citation
+
+Kamara, K. (n.d.). Data Mining II - D212 Task 3. Retrieved October 12, 2025, from https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=db85c4f1-0da5-4bde-a1a4-b07c0019d46d
+
+matplotlib (n.d.). Matplotlib.Pyplot.Barh. Retrieved October 12, 2025, from https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.barh.html
+
+Selvaraj, N. (Apr 24, 2023). How to Perform Market Basket Analysis in Python. Retrieved October 12, 2025, from https://365datascience.com/tutorials/python-tutorials/market-basket-analysis/
+ 
+G.  In-text citation
+
+(n.d.). Market Basket Analysis. Hua's Analysis. Retrieved October 22, 2025, from https://sarahtianhua.wordpress.com/portfolio/market-basket-analysis/
+ 
+Selvaraj, N. (Apr 24, 2023). How to Perform Market Basket Analysis in Python. Retrieved October 12, 2025, from https://365datascience.com/tutorials/python-tutorials/market-basket-analysis/
+
+MedlinePlus (2023, August 15). Carvedilol. Retrieved October 26, 2025, from https://medlineplus.gov/druginfo/meds/a697042.html
+
+
+Puckey, M. (2025, July 2). What is Abilify? Retrieved October 26, 2025, from https://www.drugs.com/abilify.html
+Puckey, M. (2024, February 29). What is diazepam? Retrieved October 26, 2025, from https://www.drugs.com/abilify.html
+
+H. Professional Communication
+
+
