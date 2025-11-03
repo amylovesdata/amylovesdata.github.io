@@ -38,10 +38,13 @@ Dashboard was created in a temporary lab environment
 
 Project seven: Course projects for Advanced Data Analytics
 Task 1: Clustering Techniques
+
 [Click here to go to written assessment](_posts/2025-10-31-D212-Task1.markdown)
 
 Task 2: Dimensionality Reduction Methods
+
 [Click here to go to written assessment](_posts/2025-10-31-D212-Task2.markdown)
 
 Task 3: Association Rules and Lift Analysis
+
 [Click here to go to written assessment](_posts/2025-10-31-D212-Task3.markdown)
