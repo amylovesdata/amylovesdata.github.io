@@ -8,7 +8,7 @@ This is my performance assessment from my D205 Data Acquisition course.
 Course: Data Acquisition — D205
 TGM3 Task 1: Data Acquisition
 Student name: Amy Pett
-ID number: 012220223
+ID number: xxxxxxxxx
 Date: 8/7/2024
  
 
