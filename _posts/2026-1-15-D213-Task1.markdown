@@ -1,9 +1,282 @@
-Course: D
 
-OFM4 Task 3: Association Rules and Lift Analysis
+Course: Advanced Data Analytics - D213
 
+NML3 Task 1: Time Series Modeling
+ 
 Student name: Amy Pett
-
+ 
 ID number: xxxxxxxxx
+ 
+Date: 11/10/25
 
-Date: 10/12/2025
+ 
+Part I: Research Question
+A1
+
+Can we forecast daily hospital revenue for the next 90 days using ARIMA time series analysis?
+
+A2
+
+The goal of this time series analysis is to leverage historical revenue data to inform future financial planning and optimize operational efficiency. This study will focus on two core objectives. First, the analysis aims to establish a predictive framework through the generation of a 90-day revenue forecast. The reliability of this forecast will be evaluated by calculating the Root Mean Squared Error (RMSE) and the Mean Absolute Error (MAE). These error metrics will quantify the absolute accuracy of the model's predictions, ensuring the forecast is statistically sound for quarterly budgeting and risk assessment. 
+Second, the resulting predictive and pattern-based insights will be directly translated into actionable operational insights. Specifically, the identification of seasonal and cyclical revenue peaks and troughs will enable data-driven adjustments to staffing and scheduling procedures, ensuring labor resources are optimally allocated during high-demand periods to maximize service and minimize unnecessary costs. The forecast can illuminate future demand, allowing for more precise and efficient supply ordering and inventory management. These objectives ensure the analysis delivers both quantitative predictive results and tangible benefits for business operations.
+Part II: Method Justification
+B  
+One of the assumptions of time series modeling is stationarity.  Stationarity is basically the concept that the data value does not change over time or is in "statistical equilibrium” (Box, 2015, p. 51). Or in other words, there is balance and stability in the data. There are different ways of measuring this.  The Augmented Dickey-Fuller (ADF) is a common method that I applied in this analysis.
+Another assumption is autocorrelated data.  Autocorrelation “measures the degree of similarity between a given time series and the lagged version of that time series over successive time periods” (GeeksforGeeks, 2025). In other words, how much does the current value relate to past values?  Time periods can be days, weeks, months, etc. This is useful in forecasting to show whether past values can help predict the future.  A positive autocorrelation shows correlation with values at different points in time.  A negative autocorrelation value would show low or no correlation. 
+White noise is also an assumption in time series analysis. White noise is characterized by a mean value of zero, where the average of the values from the same distribution is zero.  There is also no correlation between the other values in the dataset (Brownlee, 2020).
+
+Part III: Data Preparation
+C1
+ 
+
+C2 
+	I ran .info() to explore the variables.  The date variable, “Day”, is an integer data type.  There are 731 rows.  Per the data dictionary, this dataset is consecutive daily revenue totals for the first two years (731 days) of the hospital system's operation. 
+
+ 
+	Next, I checked for duplicates. There were no duplicates, so this gave more confidence that there were no gaps in the data. 
+
+ 
+	Then I used .describe() to look at the max and min.  The max was 731, and the min was 1.  Since there were no duplicates, I had full confidence that the time series in this data set was complete. 
+ 
+
+C3
+	 I used the Augmented Dickey-Fuller (ADF) test to determine whether the series is stationary.  I got a P-value of 0.19 and an ADF of -2.21.  The data is considered stationary if the P-value is less than 0.05 and the ADF value is lower than the critical values (GeeksforGeeks, 2025).  My P-value is greater 0.05, and my ADF value is greater than the 5% value (-2.86). In this case, I determined my data is not stationary. 
+
+C4
+	The first preprocessing step I took was to convert “Day” to a date format.  I created a new column “Date”.  The data dictionary did not specify the first date.  The only date mentioned in the data dictionary was 2015, which was when there was a high in readmission penalties from the Centers for Medicare and Medicaid Services.  Since it’s impossible to know the correct first date, I chose 11/15/23, which was 2 years prior to when I started running my code. 
+	Next, I set “Date” as an index. This enables the modeling libraries to recognize the column as a date column, organized chronologically for time series analysis. 
+
+ 
+	Finally, I split the data into test and train data for the analysis.  I choose to do an 80/20 split. This is a standard split, and it felt like a good amount of testing data for a 90 day forecast.
+ 
+
+ 
+
+C5
+See file attached to this assessment: medical_time_series_clean.csv
+Part IV: Model Identification and Analysis
+D1
+
+Seasonality
+	I tried different periods to analyze seasonality.  When I used “period = 30”, or a monthly cycle, it became clear that this is some monthly seasonality.  
+ 
+Trends
+	It’s clear from plotting the dataset that there are distinct trends.  Revenues initially started low but began to climb. Shortly before the second year, revenue reached its peak.  From that point forward, the revenue remained high, though fluctuating, near the mean values, but not as high as the peak. 
+ 
+
+Autocorrelation
+	For Autocorrelation the ACF was positive across all the lag points.  This indicates a strong similarity in the values throughout the past. There is some slight trailing off, however. The partial autocorrelation peaks at lag 1. This suggests that the autoregressive model (AR) is a suitable model for this data (GeekforGeek, 2025). 
+
+Spectral Density
+	The graph shows a clear spike at the lowest frequency, followed by a gradual decline.  There doesn’t appear to be periodicity in this graph (Sewel, n.d.). This indicates that the data is nonstationary. 
+ 
+
+Decomposed Time Series
+	I ran the decomposed time series with a period of 30.  We can see in the first graph that the revenue increases then fluctuates at the higher levels.  Because we ran the ADF test that also confirms the data is non-stationary.
+	There is a fairly strong trend.  It starts out very positive, stabilizes for the most part, and then there is a slight downward trend near the end. 
+	The seasonality, as mentioned earlier, provides strong evidence of a 30-day cycle. 
+
+ 
+
+ 
+
+Lack of trends in residuals
+	The Resid chart, shown above under the decomposed time series section, shows what remains when the trend and seasonal components are removed.  It fluctuates around zero. This shows no discernible trend or pattern, confirming that the model has captured the systematic components of the series.
+D2
+
+ 
+ 
+
+D3
+
+ 
+
+D4
+	I ran code to determine the mean. I felt it was useful to understand. I wanted to see what it looked like and use it to gauge the impact on the error metrics.
+
+ 
+	I then examined the mean absolute error (MAE) and mean squared error (MSE) to assess the model's performance. This indicates that my model was off by 3.02 units, with a standard deviation of 3.59.  If I compare that to the mean (16.41), the mean squared error could be as high as about 18%. That is too high to achieve precision in operational planning. 
+
+ 
+
+D5
+Code (see also pdf of jupyter notebook submitted with this assessment)
+
+# Decompose the time series into trend, seasonal and residual components
+data=df['Revenue']
+result = seasonal_decompose(
+    data, model='additive', period=30, extrapolate_trend='freq')
+result.plot()
+plt.suptitle('Weekly Seasonal Decomposition')
+plt.tight_layout()
+plt.show()
+
+# Plot the seasonal component
+plt.figure(figsize=(12, 8))
+plt.plot(result.seasonal, label='Seasonal Component')
+plt.title('Seasonal Component of Revenue Time Series')
+plt.xlabel('Year')
+plt.ylabel('Seasonal Component')
+plt.legend()
+plt.show()
+
+#Create figure
+fig, (ax1, ax2) = plt.subplots(2,1, figsize=(12,8))
+
+#Plot ACF
+plot_acf(df['Revenue'], lags=10, zero=False, ax=ax1)
+
+#Plot PACF
+plot_pacf(df['Revenue'], lags=10, zero=False, ax=ax2)
+
+plt.show()
+
+#Spectral Density
+plt.psd(df['Revenue'], Fs=(1 / diff))
+plt.title("Spectral Density of Revenue")
+plt.show()
+
+#find stationarity
+#monthly level
+rolmean=data.rolling(window=12).mean()
+rolstd=data.rolling(window=12).std()
+print(rolmean, rolstd)
+
+orig=plt.plot(data, color='blue', label='Original')
+mean=plt.plot(rolmean, color='red', label='Rolling Mean')
+std=plt.plot(rolstd, color='black', label='Rolling Std')
+plt.legend(loc='best')
+plt.title('Rolling Mean and Standard Deviation')
+plt.show(block=False)
+
+#find p, d, & q values
+warnings.filterwarnings("ignore")
+stepwise_fit=auto_arima(df['Revenue'], trace=True, suppress_warnings=True)
+stepwise_fit.summary()
+
+#Run the Arima on training data
+model=ARIMA(train['Revenue'], order=(1,1,0))
+model_result=model.fit()
+model_result.summary()
+
+#Make predictions
+start=len(train)
+end=len(train)+len(test)-1
+pred=model_result.predict(start=start, end=end, type='levels')
+print(pred)
+
+#set an index for plotting
+pred.index=df.index[start:end+1]
+
+#Plot predicted mean
+pred.plot(legend=True)
+test['Revenue'].plot(legend=True)
+
+#Get mean
+test['Revenue'].mean()
+
+#Get MAE (mean absolute error)
+mae=mean_absolute_error(pred, test['Revenue'])
+
+#Get RMSE (root mean square error)
+rmse=sqrt(mean_squared_error(pred, test['Revenue']))
+
+print("Mean absolute error : " + str(mae))
+print("Mean square error : " + str(rmse))
+
+#define future steps for 90 days
+future_steps = 90
+
+#Make predictions
+future_start=len(train)
+future_end=len(df)+ future_steps-1
+future_pred=model_result.predict(start=future_start, end=future_end, type='levels')
+
+#set an index for plotting
+future_index = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1),
+                             periods=len(future_pred),
+                             freq='D')  
+
+future_pred.index = future_index
+
+#Plot combined results
+plt.figure(figsize=(14, 7))
+
+#Training data 
+plt.plot(train.index, train['Revenue'], label='Training Data', color='green', linewidth=2)
+
+#Test data
+plt.plot(test.index, test['Revenue'], label='Actual Test Values', color='red', linewidth=2)
+
+
+#90 day forecast
+plt.plot(future_pred.index, future_pred, label=f'{future_steps}-Day Future Forecast', color='blue', linestyle='-', linewidth=2)
+
+
+plt.title(f'ARIMA Forecast: Test, Train, and 90-Day Projection')
+plt.xlabel('Date')
+plt.ylabel('Revenue')
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+Part V: Data Summary and Implications
+E1
+Selection of ARIMA model
+	There were multiple indications that the data is non-stationary, including an ADF P-value of 0.19966.  I also had positive autocorrelation.  The ARIMA model made the most sense since my data was non-stationary, had positive autocorrelation, and showed trending
+Prediction interval
+I split the test and train data into 80/20 proportions.  So, the prediction interval was based on the 20% or 146 testing data points. 
+Forecast length
+	I chose a forecast length of 90 days.  That’s approximately one quarter of the fiscal year.  The seasonality cycle is monthly, so this involves forecasting over a 3-month period.  It’s long enough to accommodate three cycles, but not so long that scheduling or planning can’t be adjusted if new analysis warrants changes. 
+
+Model evaluation
+Mean=16.41
+MAE=3.02
+RMSE=3.59
+The current forecasting model lacks the precision required for operational decision-making. With an average prediction error (MAE) of 3.02 units and a standard deviation of errors (RMSE) at 3.59, the model's accuracy is simply too low for practical use. Given the limited range of the Revenue data, a typical error of this size represents a deviation of approximately 20% from the true value. Consequently, relying on this forecast would likely lead to inefficient scheduling, inaccurate inventory levels, and suboptimal resource allocation.
+ 
+E2
+
+ 
+E3
+	The model was not accurate enough to make operational decisions with confidence.  One potential issue may be due to the non-stationary characteristics of the data.  I do recommend creating a new model using differencing to account for non-stationarity.
+	A limitation in the data is that the actual dates of the data points are unknown.  We do see a monthly cycle in the data.  There is some trending up and down, but it’s difficult to account for seasonality without accurate dates.  Some of the dips could occur during specific times of the year, such as summer, when there’s less flu and other seasonal illnesses. For accuracy, I would request that the correct dates be added to the dataset.
+ One recommendation I can make based on the analysis I completed is to have the operations managers plan on a monthly cycle.  We can identify the peak and low points for revenue in that cycle, which would be helpful for creating monthly staffing schedules.  Likewise, having generic supplies, such as cleaning supplies or food, ordered during peak revenue in anticipation of the next cycle. 
+	
+Part VI: Reporting
+F Code PDF
+See attached file: D213 Task 1 Jupyter notebook.pdf
+
+G  Code Citation
+
+Sewell, W., Dr (n.d.). D213 Webinar Task One Arima I. Retrieved November 10, 2025, from https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=358071e7-9c01-4274-a044-af7400ec1c40
+
+Elleh, F. (n.d.). D213 T1 Jun 19 2022. Retrieved November 16, 2025, from https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=efceba6c-e8ef-47a2-b859-aec400fe18e7
+
+pandas (n.d.). Pandas.Date_range. Retrieved November 16, 2025, from https://pandas.pydata.org/docs/reference/api/pandas.date_range.html
+
+geeks for geeks (2025, July 23). Seasonality Detection in Time Series Data. Retrieved November 16, 2025, from https://www.geeksforgeeks.org/machine-learning/seasonality-detection-in-time-series-data/
+
+Fulton, J., Ismay, C., & Nehme, A. (Nov, 2023). ARIMA Models in Python. Datacamp. https://app.datacamp.com/learn/courses/arima-models-in-python
+
+
+Aly, S. (n.d)  D213 Q&A Session-20250214 1805-1 Retrieved November 16,2025, from https://wgu.webex.com/recordingservice/sites/wgu/recording/0e9c54e0050a47bbbd8ddcf608bc6b35/playback
+
+matplotlib (n.d.). Matplotlib.Pyplot.Psd. Retrieved November 23, 2025, from https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.psd.html
+
+Sewel, W., Dr (n.d.). Take Five D213 Spectral Density. Retrieved November 23, 2025, from https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=70b99496-6deb-48a2-afd0-aee200c6c405
+
+H  In Text Citation
+
+GeeksforGeeks (2025, July 23). Augmented Dickey-Fuller (ADF). Retrieved November 23, 2025, from https://www.geeksforgeeks.org/machine-learning/augmented-dickey-fuller-adf/
+
+Box, G. E. P. (2015). Time Series Analysis : Forecasting and Control. Newark : John Wiley & Sons, Incorporated.  
+
+GeeksforGeeks (2025, July 23). AutoCorrelation. Retrieved November 25, 2025, from https://www.geeksforgeeks.org/machine-learning/autocorrelation/
+
+Sewel, W., Dr (n.d.). Take Five D213 Spectral Density. Retrieved November 23, 2025, from https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=70b99496-6deb-48a2-afd0-aee200c6c405
+
+Brownlee, J. (2020, August 14). White Noise Time Series with Python. Machine Learning Mystery. Retrieved November 29, 2025, from https://machinelearningmastery.com/white-noise-time-series-python/
+
+I  Professional Communication
